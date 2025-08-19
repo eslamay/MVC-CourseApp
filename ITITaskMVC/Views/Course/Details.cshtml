@@ -1,11 +1,27 @@
-﻿@model ITITaskMVC.Models.ViewModels.CourseVM
+﻿@using ITITaskMVC.BLL.ViewModels.CourseViewModels
+@model CourseVM  
 
+<div class="container mt-5">  
+   <div class="card shadow-sm">  
+       <div class="card-header bg-white text-black">  
+           <h2 class="text-center">Course Details</h2>  
+       </div>  
+       <div class="card-body">  
+           <p class="mb-3"><strong>Name:</strong> @Model.Name</p>  
+           <p class="mb-3"><strong>Description:</strong> @Model.Description</p>  
+           <p class="mb-3"><strong>Category:</strong> @Model.Category</p>  
+           <p class="mb-3"><strong>Start Date:</strong> @Model.startDate.ToShortDateString()</p>  
+           <p class="mb-3"><strong>End Date:</strong> @Model.endDate.ToShortDateString()</p>
+		   <p class="mb-3"><strong>Active:</strong> @Model.IsActive? "Yes" : "No"</p>
+            <p class="mb-3"><strong>Instructor:</strong> @Model.Instructor?.FirstName @Model.Instructor?.LastName</p>
+        </div>  
+       <div class="card-footer text-center">    
+           <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger"
+                onclick="return confirm('Are you sure you want to delete this course?')">Delete</button>
+            </form>
 
-<h2>Course Details</h2>
-<p><strong>Name:</strong> @Model.Name</p>
-<p><strong>Description:</strong> @Model.Description</p>
-<p><strong>Category:</strong> @Model.Category</p>
-<p><strong>Start Date:</strong> @Model.startDate.ToShortDateString()</p>
-<p><strong>End Date:</strong> @Model.endDate.ToShortDateString()</p>
-
-
+       </div>  
+   </div>  
+</div>

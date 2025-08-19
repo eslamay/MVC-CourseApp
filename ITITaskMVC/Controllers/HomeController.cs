@@ -1,5 +1,5 @@
 using System.Diagnostics;
-using ITITaskMVC.Models;
+using ITITaskMVC.DAL.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ITITaskMVC.Controllers

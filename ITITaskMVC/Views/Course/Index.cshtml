@@ -1,14 +1,28 @@
-﻿@model List<course>
+﻿@using ITITaskMVC.BLL.Pagination
+@using ITITaskMVC.BLL.ViewModels.CourseViewModels
+@using ITITaskMVC.DAL.Models
+@model PageResult<CourseVM>
 
 @{
     var categories = ViewBag.Categories as IEnumerable<CategoryCourse>;
     var selectedCategory = ViewBag.SelectedCategory as CategoryCourse?;
 }
 
+<form method="get" class="form-inline mb-2">
+	<div class="input-group" style="width:400px">
+        <input type="text" name="searchName" value="@ViewBag.SearchName" placeholder="Search" class="form-control" />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
+
 <h2>Courses</h2>
 
+<p>
+	<a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
 <form method="get" asp-action="Index">
-    <select name="category" onchange="this.form.submit()">
+    <select class="form-select" name="category" onchange="this.form.submit()">
         <option value="">-- All Categories --</option>
         @foreach (var cat in categories)
         {
@@ -20,7 +34,7 @@
 </form>
 
 
-<table>
+<table class="table table-borderless">
     <thead>
         <tr>
             <th>Id</th>
@@ -30,11 +44,12 @@
             <th>Start Date</th>
             <th>End Date</th>
             <th>Is Active</th>
+            <th>Instructor</th>
             <th>Action</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var course in Model)
+        @foreach (var course in Model.Items)
         {
             <tr>
                 <td>@course.Id</td>
@@ -44,8 +59,33 @@
                 <td>@course.startDate</td>
                 <td>@course.endDate</td>
                 <td>@(course.IsActive)</td>
-                <td><a asp-action="GetById" asp-route-id="@course.Id">Details</a></td>
+                <td>@(course.Instructor == null ? "No Instructor" : course.Instructor.FirstName)</td>
+                <td>
+                    <a asp-action="GetById" asp-route-id="@course.Id" class="btn btn-secondary">Details</a>
+                    <a asp-action="Edit" asp-route-id="@course.Id" class="btn btn-primary" style="display:inline;">Edit</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<div>Page @Model.Page of @Model.TotalPages</div>
+@if(Model.TotalPages > 1)
+{
+    <nav>
+        <ul class="pagination">
+            <li class="page-item me-2 @(Model.HasPrevious ? "" : "disabled")">
+                <a asp-action="Index" asp-route-page="@(Model.Page - 1)" class="page-link" asp-route-searchName="@ViewBag.SearchName">Previous</a>
+            </li>
+			@for(var i = 1; i <= Model.TotalPages; i++)
+            {
+               <li class="page-item mx-1">
+                   <a asp-action="Index" asp-route-page="@i" class="page-link @(i==Model.Page ? "active" : "")" asp-route-searchName="@ViewBag.SearchName">@i</a>
+               </li>
+            }
+            <li class="page-item me-2 @(Model.HasNext ? "" : "disabled")">
+                <a asp-action="Index" asp-route-page="@(Model.Page + 1)" class="page-link" asp-route-searchName="@ViewBag.SearchName">Next</a>
+            </li>
+		</ul>
+    </nav>
+}

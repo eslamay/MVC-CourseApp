@@ -1,0 +1,16 @@
+﻿@using ITITaskMVC.BLL.ViewModels.CourseViewModels
+@model CreateCourseVM
+
+<h2>Create New Course</h2>
+
+<form asp-action="Create" method="post">
+    @Html.Partial("_CourseForm", Model)
+
+    <button type="submit" class="btn btn-primary mt-3">Add</button>
+</form>
+
+@section Scripts {
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+

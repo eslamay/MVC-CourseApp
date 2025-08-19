@@ -1,6 +1,11 @@
-﻿using ITITaskMVC.Models;
+﻿using ITITaskMVC.DAL.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace ITITaskMVC.Data
+namespace ITITaskMVC.DAL.Data
 {
 	public static class CourseData
 	{
@@ -9,7 +14,7 @@ namespace ITITaskMVC.Data
 			new course
 			{
 				Id = Guid.NewGuid(),
-				Name = "C#", 
+				Name = "C#",
 				Description = " Learn the basics of C# programming language.",
 				Category = CategoryCourse.Programming,
 				startDate = new DateTime(2025, 8, 1),
